@@ -1,7 +1,7 @@
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import React, {Component} from 'react';
-import {loadFilms} from "../actions/film_actions";
+import {loadFilmsForCurrentDay} from "../actions/film_actions";
 import {Button} from "reactstrap";
 import WeekBar from "./WeekBar";
 
@@ -105,7 +105,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-    {loadFilms},
+    {loadFilms: loadFilmsForCurrentDay},
     dispatch
 );
 

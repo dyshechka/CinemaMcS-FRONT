@@ -1,3 +1,7 @@
+*:focus {
+    outline: none;
+}
+
 .full-height-block {
     height: 99vh;
 }
@@ -71,6 +75,16 @@ a.button-color-one-selected:hover {
 
 .button-color-two {
     background-color: #81A2A7;
+    border: none;
+}
+
+.button-color-two-selected {
+    background-color: #5a6268;
+    border: none;
+}
+
+.button-color-two:hover {
+    background-color: #5a6268;
     border: none;
 }
 
