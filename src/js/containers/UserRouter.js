@@ -8,6 +8,7 @@ class UserRouter extends Component {
         return (
             <div className="global-padding">
                 <MenuBar/>
+                <Route path="/schedule" component={MainPage}/>
                 <Route path="/films" component={MainPage}/>
             </div>
         );

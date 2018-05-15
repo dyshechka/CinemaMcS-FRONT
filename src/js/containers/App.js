@@ -1,20 +1,31 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
-import {Router, Route} from 'react-router';
+import {Route, Router} from 'react-router';
 import history from '../util/history';
 import SignIn from '../components/SignIn';
-import UserRouter from '../routers/UserRouter';
-import MenuBar from "../components/MenuBar";
-import {Container} from "reactstrap";
+import UserRouter from './UserRouter';
+import AdminRouter from './AdminRouter';
+import RedirectToSignInComponent from '../components/RedirectToSignComponent';
 
 class App extends Component {
+
+    isRole = role => this.props.account ? this.props.account.role === role : false;
+
+    isUser = () => this.props.isAuthorized && this.isRole('ROLE_USER');
+
+    isAdmin = () => this.props.isAuthorized && this.isRole('ROLE_ADMIN');
+
     render() {
+        const adminRoutes = this.isAdmin() ? (<AdminRouter/>) : '';
+        const userRoutes = this.isUser() ? (<UserRouter/>) : '';
         return(
             <Router history={history}>
-                <Fragment>
+                <div>
+                    <RedirectToSignInComponent/>
                     <Route exact path='/' component={SignIn}/>
-                    <UserRouter/>
-                </Fragment>
+                    {userRoutes}
+                    {adminRoutes}
+                </div>
             </Router>
         )
     }

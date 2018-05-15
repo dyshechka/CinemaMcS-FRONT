@@ -46,6 +46,27 @@
     background-color: #C2D3DA;
     color: #000000;
     border: none;
+    text-align: center;
+}
+
+a.button-color-one:hover {
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+    background-color: #5a6268;
+}
+
+a.button-color-one-selected:hover {
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+}
+
+.button-color-one-selected {
+    color: #fff;
+    background-color: #5a6268;
+    border: none;
+    text-align: center;
 }
 
 .button-color-two {

@@ -27,10 +27,10 @@ class SignIn extends Component {
 
     checkAuthorizationAndRedirect() {
         if (this.props.isAuthorized && this.props.account) {
-            if (this.props.account.role.code === 'ADMIN') {
-                this.props.history.push('/manageAccounts');
+            if (this.props.account.role === 'ROLE_ADMIN') {
+                this.props.history.push('/schedule');
             } else {
-                this.props.history.push('/films');
+                this.props.history.push('/schedule');
             }
         }
     }
