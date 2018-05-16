@@ -4,6 +4,8 @@ import React, {Component} from 'react';
 import {loadFilmsForCurrentDay} from "../actions/film_actions";
 import {Button} from "reactstrap";
 import WeekBar from "./WeekBar";
+import {selectSeanceWithFilm} from "../actions/order_actions";
+import {Link} from "react-router-dom";
 
 class MainPage extends Component {
 
@@ -18,6 +20,12 @@ class MainPage extends Component {
     checkAndLoadFilms() {
         if (!this.props.films) {
             this.props.loadFilms();
+        }
+    }
+
+    selectSeanceWithFilm(seance) {
+        if (!this.props.seance) {
+            this.props.selectSeanceWithFilm(seance);
         }
     }
 
@@ -37,11 +45,11 @@ class MainPage extends Component {
 
     getSeancesByFormat = (film, format, buttonClass) => {
         const seances = film.seances.filter(seance =>  seance.format.name === format);
-        const buttonColor = buttonClass + " m-2 no-round-edges-button";
+        const buttonColor = buttonClass + " m-2 no-round-edges-button seance-button";
         return seances.map((seance, index) => (
-            <Button className={buttonColor} key={index + "-seance"}>
+            <Link to="/select-seat" className={buttonColor} key={index + "-seance"} onClick={() => this.selectSeanceWithFilm(seance)}>
                 {this.formatSeanceTime(seance.time)}
-            </Button>
+            </Link>
         ));
     };
 
@@ -99,13 +107,13 @@ class MainPage extends Component {
     }
 }
 
-
 const mapStateToProps = state => ({
-    films: state.films
+    films: state.films,
+    seance: state.seance
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-    {loadFilms: loadFilmsForCurrentDay},
+    {loadFilms: loadFilmsForCurrentDay, selectSeanceWithFilm: selectSeanceWithFilm},
     dispatch
 );
 

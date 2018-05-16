@@ -28,12 +28,12 @@ class WeekBar extends Component {
         }
 
         const buttonClasses = 'week-bar-button button-color-two';
-
         const weekDays = days.map((day, index) => (
             <Button active={this.state.activeButton === index} className={buttonClasses} key={index} onClick={() => this.loadForDate(day.valueOf(), index)}>
                 {day.format("D.MM.YYYY")}
             </Button>
         ));
+
         return (
           <Row className="justify-content-center mt-3 mb-3">
               {weekDays}

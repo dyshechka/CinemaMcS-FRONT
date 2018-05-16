@@ -34,6 +34,48 @@
     border-radius: 0;
 }
 
+.seance-button {
+    color: #000;
+    padding: 10px 15px;
+}
+
+.seance-button:hover {
+    color: #FFF;
+    padding: 10px 15px;
+}
+
+.seat-cell {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #888;
+    border-radius: 10px;
+    margin: 5px;
+    height: 40px;
+    line-height: 40px;
+}
+
+.row-cell {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.row-block {
+    padding: 5px 15px;
+}
+
+.seance-type-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.w-5 {
+    width: 5%;
+}
+
 .w-15 {
     width: 15%;
 }
@@ -42,8 +84,16 @@
     width: 10%;
 }
 
+.w-30 {
+    width: 30%;
+}
+
 .w-60 {
     width: 60%;
+}
+
+.w-90 {
+    width: 90%;
 }
 
 .button-color-one {

@@ -11,14 +11,3 @@ export const loadFilmsForCurrentDay = () => dispatch => {
         console.log(reason);
     })
 };
-
-export const loadFilmsForDate = (timeStamp) => dispatch => {
-    baseUrlApi.get('/film-service/films?dateTime=' + timeStamp, authHeader()).then(res => {
-        dispatch({
-            type: 'FILMS_LOADED',
-            data: res.data
-        });
-    }).catch(reason => {
-        console.log(reason);
-    })
-};
