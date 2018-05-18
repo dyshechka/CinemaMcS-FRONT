@@ -1,10 +1,11 @@
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import React, {Component} from 'react';
-import {loadFilmsForCurrentDay} from "../../actions/film_actions";
+import {addSeatToOrder} from "../../actions/order_actions";
 import {Container, Row} from "reactstrap";
 import WeekBar from "../WeekBar";
 import seance from "../../reducers/seance";
+import Seat from "./Seat";
 
 class OrderSelectSeat extends Component {
 
@@ -46,7 +47,6 @@ class OrderSelectSeat extends Component {
             film = this.getFilms().filter(f => f.film.id === this.props.seance.filmId)[0].film;
             seance = this.getFilms().filter(f => f.film.id === this.props.seance.filmId)[0].seances.filter(s => s.id === this.props.seance.id)[0];
         }
-
         if (film != null) {
             film = (<div className="d-flex p-2 border-bottom border-1 border-secondary">
                 <div className="w-15 d-flex flex-column text-left">
@@ -87,9 +87,8 @@ class OrderSelectSeat extends Component {
                     <div className="w-5 row-cell">
                         <div>{row.rowNumber}</div>
                     </div>
-                    <div className="w-90 row-block d-flex flex-row justify-content-center">{row.seats.map(seat =>
-                        <div className="seat-cell" key={"seat" + seat.id}>{seat.number}</div>)
-                    }</div>
+                    <div className="w-90 row-block d-flex flex-row justify-content-center">
+                        {row.seats.map(seat => (<Seat key={seat.id} seat={seat}/>))}</div>
                     <div className="w-5 row-cell"><div>{row.rowNumber}</div></div>
                 </Row>)
             : (<div>loading...</div>);
@@ -105,11 +104,12 @@ class OrderSelectSeat extends Component {
 const mapStateToProps = state => ({
     hall: state.hall,
     seance: state.seance,
-    films: state.films
+    films: state.films,
+    selectedSeats: state.order ? state.order.selectedSeats : []
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-    {loadSeance: seance},
+    {loadSeance: seance, addSeatToOrder: addSeatToOrder},
     dispatch
 );
 

@@ -52,6 +52,7 @@
     margin: 5px;
     height: 40px;
     line-height: 40px;
+    cursor: pointer;
 }
 
 .row-cell {
@@ -71,6 +72,26 @@
     align-items: center;
     justify-content: center;
 }
+
+.seat-blocked {
+    background-color: #888888;
+    color: #ffffff;
+}
+
+.seat-free {
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.seat-vip {
+    background-color: #81A2A7;
+    color: #ffffff;
+}
+
+.seat-selected {
+    background-color: #C2D3DA;
+}
+
 
 .w-5 {
     width: 5%;
