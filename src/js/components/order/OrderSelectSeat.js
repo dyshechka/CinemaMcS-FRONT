@@ -2,10 +2,12 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import React, {Component} from 'react';
 import {addSeatToOrder} from "../../actions/order_actions";
-import {Container, Row} from "reactstrap";
+import {Button, Container, Row} from "reactstrap";
 import WeekBar from "../WeekBar";
 import seance from "../../reducers/seance";
 import Seat from "./Seat";
+import {Link} from "react-router-dom";
+import OrderFilmPlate from "./OrderFilmPlate";
 
 class OrderSelectSeat extends Component {
 
@@ -17,22 +19,10 @@ class OrderSelectSeat extends Component {
 
     getFilms = () => this.props.films ? this.props.films : [];
 
-    formatDuration = (duration) => {
-        let hours = Math.floor(duration / 60) + " ч. ";
-        let minutes = duration % 60 + " мин.";
-        return hours + minutes;
-    };
+    getSelectedSeats = () => this.props.selectedSeats ? this.props.selectedSeats : [];
 
-    dateFormat = (timeStamp) => {
-        let date = new Date(timeStamp);
-        let formatDate = date.getDate();
-        const month = date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth();
-        formatDate = formatDate + '.' + month + '.' + date.getFullYear() + ' ';
-        formatDate = formatDate + date.getHours() + ':';
-        const minutes = date.getMinutes() === 0 ? "00" : date.getMinutes();
-        formatDate = formatDate + minutes;
-        return formatDate;
-    };
+    componentDidUpdate() {
+    }
 
     componentDidMount() {
         if (!this.getSeance()) {
@@ -41,47 +31,6 @@ class OrderSelectSeat extends Component {
     }
 
     render() {
-        let film = null;
-        let seance = null;
-        if (this.props.seance) {
-            film = this.getFilms().filter(f => f.film.id === this.props.seance.filmId)[0].film;
-            seance = this.getFilms().filter(f => f.film.id === this.props.seance.filmId)[0].seances.filter(s => s.id === this.props.seance.id)[0];
-        }
-        if (film != null) {
-            film = (<div className="d-flex p-2 border-bottom border-1 border-secondary">
-                <div className="w-15 d-flex flex-column text-left">
-                    <h5>{film.name}</h5>
-                    <div className="flex-row">{film.genres.map((item, index) => (
-                        index === film.genres.length - 1 ? item.name + " " : item.name + ", "))}
-                    </div>
-                    <div>
-                        {this.formatDuration(film.duration)}
-                    </div>
-                </div>
-                <div className="w-10 flex-column text-center">
-                    <div className="h-50 d-flex justify-content-center align-items-center">
-                        <div>
-                            {film.imdb}
-                        </div>
-                    </div>
-                    <div className="h-50 d-flex justify-content-center align-items-center">
-                        <div>
-                            {film.ageRestrictions[0].name}
-                        </div>
-                    </div>
-                </div>
-                <div className="w-15 seance-type-cell">
-                    {seance.format.name}
-                </div>
-                <div className="w-30 d-flex flex-row justify-content-center">
-                    <div className="seance-type-cell">{this.dateFormat(seance.time)}</div>
-                </div>
-                <div className="w-50 d-flex flex-row justify-content-center">
-                    <div className="seance-type-cell">{this.getHall() != null ? this.getHall() + " зал" : ""}</div>
-                </div>
-            </div>)
-        }
-
         const rows = this.createSeatsGrid() ? this.createSeatsGrid().map(row =>
                 <Row className="flex-row justify-content-center" key={"row" + row.rowNumber}>
                     <div className="w-5 row-cell">
@@ -92,10 +41,39 @@ class OrderSelectSeat extends Component {
                     <div className="w-5 row-cell"><div>{row.rowNumber}</div></div>
                 </Row>)
             : (<div>loading...</div>);
+
+        const legend = (
+            <Row className="justify-content-center pt-3 mt-3 border-top border-1 border-secondary">
+                <div className="w-25 d-flex flex-column align-items-center">
+                    <div className="seat-cell" id="usual-seat"></div><label style={{paddingTop: "12px"}} htmlFor="usual-seat">Обычное</label>
+                </div>
+                <div className="w-25 d-flex flex-column align-items-center">
+                    <div className="seat-cell seat-vip" id="vip-seat"></div><label style={{paddingTop: "12px"}}  htmlFor="vip-seat">VIP</label>
+                </div>
+                <div className="w-25 d-flex flex-column align-items-center">
+                    <div className="seat-cell seat-blocked" id="bought-seat"></div><label style={{paddingTop: "12px"}}  htmlFor="bought-seat">Куплено</label>
+                </div>
+                <div className="w-25 d-flex flex-column align-items-center">
+                    <div className="seat-cell seat-selected" id="selected-seat"></div><label style={{paddingTop: "12px"}}  htmlFor="selected-seat">Выбрано</label>
+                </div>
+            </Row>
+        );
+
+        const selectedSeats = (
+            <Row className="justify-content-center pt-3 mt-3 border-top border-1 border-secondary">
+                {this.getSelectedSeats().map(seat => (<div>{seat}</div>))}
+            </Row>
+        );
+
         return(
             <div>
-                {film}
+                <OrderFilmPlate/>
                 {rows}
+                {legend}
+                {selectedSeats}
+                <Row className="justify-content-end">
+                    <Link to="/calculate-order" className="week-bar-button button-color-one">Продолжить</Link>
+                </Row>
             </div>
         );
     }

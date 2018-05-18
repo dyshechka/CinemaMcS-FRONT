@@ -6,7 +6,8 @@ import {addSeatToOrder} from "../../actions/order_actions";
 class Seat extends Component {
 
     state = {
-      selected: false
+        blocked: false,
+        selected: false
     };
 
     componentDidMount() {
@@ -17,6 +18,7 @@ class Seat extends Component {
         if (this.state.selected) {
             return "seat-selected"
         } else if (!seat.free) {
+            this.state.blocked = true;
             return "seat-blocked";
         } else if (seat.vip) {
             return "seat-vip";
@@ -56,7 +58,7 @@ class Seat extends Component {
         return (
             <div
                 className={"seat-cell " + this.buildSeatStyles(this.props.seat)}
-                onClick={() => this.state.selected ? "" : this.handleSeatClick(this.props.seat)}
+                onClick={() => this.state.blocked ? "" : this.handleSeatClick(this.props.seat)}
             >{this.props.seat.id}</div>
         );
     }
