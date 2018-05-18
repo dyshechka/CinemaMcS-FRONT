@@ -3,6 +3,10 @@ import {authHeader, baseUrlApi} from "../api";
 export const selectSeanceWithFilm = (seanceWithFilm) => dispatch => {
     baseUrlApi.get('/hall-service/seats?hallId=' + seanceWithFilm.hallId + '&seanceId=' + seanceWithFilm.id, authHeader()).then(res => {
         dispatch({
+            type: 'SEANCE_SELECTED',
+            data: seanceWithFilm
+        });
+        dispatch({
             type: 'HALL_SEATS_LOADED',
             data: res.data
         });

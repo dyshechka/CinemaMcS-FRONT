@@ -23,9 +23,10 @@ class MainPage extends Component {
         }
     }
 
-    selectSeanceWithFilm(seance) {
+    selectSeance(seance) {
         if (!this.props.seance) {
             this.props.selectSeanceWithFilm(seance);
+            console.log(seance);
         }
     }
 
@@ -47,7 +48,7 @@ class MainPage extends Component {
         const seances = film.seances.filter(seance =>  seance.format.name === format);
         const buttonColor = buttonClass + " m-2 no-round-edges-button seance-button";
         return seances.map((seance, index) => (
-            <Link to="/select-seat" className={buttonColor} key={index + "-seance"} onClick={() => this.selectSeanceWithFilm(seance)}>
+            <Link to="/select-seat" className={buttonColor} key={index + "-seance"} onClick={() => this.selectSeance(seance)}>
                 {this.formatSeanceTime(seance.time)}
             </Link>
         ));

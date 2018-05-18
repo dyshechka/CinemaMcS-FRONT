@@ -9,13 +9,17 @@ class Seat extends Component {
       selected: false
     };
 
+    componentDidMount() {
+        this.state.selected = !this.props.seat.free;
+    }
+
     buildSeatStyles = (seat) => {
         if (this.state.selected) {
             return "seat-selected"
-        } else if (seat.vip) {
-            return "seat-vip";
         } else if (!seat.free) {
             return "seat-blocked";
+        } else if (seat.vip) {
+            return "seat-vip";
         } else {
             return "";
         }
@@ -52,7 +56,7 @@ class Seat extends Component {
         return (
             <div
                 className={"seat-cell " + this.buildSeatStyles(this.props.seat)}
-                onClick={() => this.handleSeatClick(this.props.seat)}
+                onClick={() => this.state.selected ? "" : this.handleSeatClick(this.props.seat)}
             >{this.props.seat.id}</div>
         );
     }
