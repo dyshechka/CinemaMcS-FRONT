@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {loadFilmsForCurrentDay} from "../actions/film_actions";
 import {Button} from "reactstrap";
 import WeekBar from "./WeekBar";
-import {selectSeanceWithFilm} from "../actions/order_actions";
+import {cleanOrder, selectSeanceWithFilm} from "../actions/order_actions";
 import {Link} from "react-router-dom";
 
 class MainPage extends Component {
@@ -15,6 +15,7 @@ class MainPage extends Component {
 
     componentDidMount() {
         this.checkAndLoadFilms();
+        this.props.cleanOrder();
     }
 
     checkAndLoadFilms() {
@@ -113,7 +114,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-    {loadFilms: loadFilmsForCurrentDay, selectSeanceWithFilm: selectSeanceWithFilm},
+    {loadFilms: loadFilmsForCurrentDay, selectSeanceWithFilm: selectSeanceWithFilm, cleanOrder},
     dispatch
 );
 

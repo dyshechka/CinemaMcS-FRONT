@@ -5,6 +5,7 @@ import MenuBar from "../components/MenuBar";
 import OrderSelectSeat from "../components/order/OrderSelectSeat";
 import OrderCalculation from "../components/order/OrderCalculation";
 import OrderPayment from "../components/order/OrderPayment";
+import OrderComplition from "../components/order/OrderComplition";
 
 class UserRouter extends Component {
     render() {
@@ -16,6 +17,7 @@ class UserRouter extends Component {
                 <Route path="/select-seat" component={OrderSelectSeat}/>
                 <Route path="/calculate-order" component={OrderCalculation}/>
                 <Route path="/payment-order" component={OrderPayment}/>
+                <Route path="/complete-order" component={OrderComplition}/>
             </div>
         );
     }

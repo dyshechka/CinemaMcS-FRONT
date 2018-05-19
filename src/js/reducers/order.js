@@ -24,6 +24,18 @@ export default function order(state = initialState, action) {
                 ...state,
                 calculatedOrder: action.data
             };
+        case 'APPROVE_ORDER':
+            return {
+                ...state,
+                approvedOrder: action.data
+            };
+        case 'CLEAN_ORDER':
+            return {
+                ...state,
+                approvedOrder: null,
+                calculatedOrder: null,
+                selectedSeats: []
+            };
         default:
             return state;
     }

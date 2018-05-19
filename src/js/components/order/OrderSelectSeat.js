@@ -73,7 +73,7 @@ class OrderSelectSeat extends Component {
                 {legend}
                 {selectedSeats}
                 <Row className="justify-content-end">
-                    <Link to="/calculate-order" className="week-bar-button button-color-one">Продолжить</Link>
+                    <Link to="/calculate-order" className="button-color-one p-2">Продолжить</Link>
                 </Row>
             </div>
         );

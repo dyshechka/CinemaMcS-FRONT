@@ -59,7 +59,7 @@ class OrderCalculation extends Component {
                 </div>
                 {orderSum}
                 <Row className="justify-content-end">
-                    <Link to="/payment-order" className="week-bar-button button-color-one">Оплатить банковской картой</Link>
+                    <Link to="/payment-order" className="button-color-one p-2">Оплатить банковской картой</Link>
                 </Row>
             </div>
         );
