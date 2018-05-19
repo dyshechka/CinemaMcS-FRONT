@@ -14,9 +14,21 @@ class UserProfile extends Component {
     }
 
     render() {
+        const userAccount = (
+            <div>
+                <div><span><b>Фамилия: </b></span>{this.props.account.lastName}</div>
+                <div><span><b>Имя: </b></span>{this.props.account.firstName}</div>
+                <div><span><b>Email: </b></span>{this.props.account.email}</div>
+                <div><span><b>Пол: </b></span>{this.props.account.sex ? "М" : "Ж"}</div>
+                <div><span><b>Логин: </b></span>{this.props.account.username}</div>
+            </div>
+        );
         return (
             <div>
-                <div className="text-center"><h3>Профиль пользователя</h3></div>
+                <div className="text-center pt-3"><h3>Профиль пользователя</h3></div>
+                <div>
+                    {userAccount}
+                </div>
                 <div className="d-flex flex-wrap order-block-wrapper">
                 </div>
                 <div className="text-center"><h3>Список заказов</h3></div>
@@ -36,7 +48,8 @@ class UserProfile extends Component {
 }
 
 const mapStateToProps = state => ({
-    orderList: state.userProfile ? state.userProfile.userOrders : null
+    orderList: state.userProfile ? state.userProfile.userOrders : null,
+    account: state.account ? state.account : null
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
