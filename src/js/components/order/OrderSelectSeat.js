@@ -66,15 +66,19 @@ class OrderSelectSeat extends Component {
             </Row>
         );
 
+        const continueButton = this.props.selectedSeats.length > 0 ? (
+            <Row className="justify-content-end">
+                <Link to="/calculate-order" className="button-color-one p-2">Продолжить</Link>
+            </Row>
+        ) : ("");
+
         return(
             <div>
                 <OrderFilmPlate/>
                 {rows}
                 {legend}
                 {selectedSeats}
-                <Row className="justify-content-end">
-                    <Link to="/calculate-order" className="button-color-one p-2">Продолжить</Link>
-                </Row>
+                {continueButton}
             </div>
         );
     }

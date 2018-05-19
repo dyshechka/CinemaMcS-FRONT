@@ -12,7 +12,7 @@ class Seat extends Component {
 
     componentDidMount() {
         this.setState({
-            // blocked: !this.props.seat.free,
+            blocked: !this.props.seat.free,
             selected: this.props.selectedSeats.indexOf(this.props.seat) !== -1
         });
     }
@@ -52,7 +52,7 @@ class Seat extends Component {
         return (
             <div
                 className={"seat-cell " + this.buildSeatStyles(this.props.seat)}
-                onClick={() => /*this.state.blocked ? "" : */this.handleSeatClick(this.props.seat)}
+                onClick={() => this.state.blocked ? "" : this.handleSeatClick(this.props.seat)}
             >{this.props.seat.id}</div>
         );
     }

@@ -61,7 +61,7 @@ class OrderComplition extends Component {
                                 <div className="text-center font-weight-bold">{"Билетов:"}</div>
                                 <div className="big-digit text-center">{this.getApprovedOrder().tickets.length}</div>
                             </div>
-                            <div className="d-flex flex-column" style={{width: 200 + "px"}}>
+                            <div className="d-flex flex-column justify-content-center text-right" style={{width: 200 + "px"}}>
                                 <div className="">{this.getApprovedOrder().tickets[0].film}</div>
                                 <div className="">{this.dateFormat(this.props.seance.time)}</div>
                             </div>

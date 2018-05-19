@@ -9,6 +9,13 @@ import {Link} from "react-router-dom";
 
 class OrderPayment extends Component {
 
+    state = {
+        cardNumber: null,
+        cardHolder: null,
+        cardYear: null,
+        cardCVV: null
+    };
+
     componentDidMount() {
         const selectedSeats = this.props.selectedSeats;
         const seatsIds = selectedSeats.map(selectedSeat => selectedSeat.id);
@@ -27,16 +34,50 @@ class OrderPayment extends Component {
         return months;
     };
 
+    changeCardNumber = (e) => {
+        this.validFunction(e.target.value, 19, "cardNumber");
+    };
+
+    changeCardHolder = (e) => {
+        this.setState({cardHolder: e.target.value});
+    };
+
+    changeCardCVV = (e) => {
+        this.validFunction(e.target.value, 3, "cardCVV");
+    };
+
+    changeCardYear = (e) => {
+        this.validFunction(e.target.value, 4, "cardYear");
+    };
+
+    validFunction = (value, length, attr) => {
+        let validatedValue = value;
+        validatedValue = validatedValue.trim();
+        validatedValue = validatedValue.replace("_", "");
+        if (validatedValue.length === length) {
+            this.setState({[attr]: value});
+        } else {
+            this.setState({[attr]: null});
+        }
+    };
+
     render() {
+        const continueButton = !this.state.cardNumber || !this.state.cardHolder
+        || !this.state.cardYear || !this.state.cardCVV ? ("") : (
+            <div className="d-flex p-3 mb-3 border-top border-1 border-secondary justify-content-end">
+                <Link to="/complete-order" className="button-color-one p-2">Подтвердить</Link>
+            </div>
+        );
+
         return (
             <div>
                 <OrderFilmPlate/>
                 <Container>
                     <Row className="justify-content-center">
-                        <MaskedInput className="card-input-field" mask="1111 1111 1111 1111" name="card" size="20" placeholder="НОМЕР КАРТЫ"/>
+                        <MaskedInput className="card-input-field" mask="1111 1111 1111 1111" name="card" size="20" onChange={this.changeCardNumber} placeholder="НОМЕР КАРТЫ"/>
                     </Row>
                     <Row className="justify-content-center">
-                        <Input className="large-input-field text-uppercase" placeholder="ИМЯ И ФАМИЛИЯ ВЛАДЕЛЬЦА КАРТЫ"/>
+                        <Input className="large-input-field text-uppercase"  onChange={this.changeCardHolder} placeholder="ИМЯ И ФАМИЛИЯ ВЛАДЕЛЬЦА КАРТЫ"/>
                     </Row>
                     <Row className="justify-content-center">
                         <Input type="select"className="small-input-field" placeholder="ММ">
@@ -44,15 +85,13 @@ class OrderPayment extends Component {
                                 this.getMonths()
                             }
                         </Input>
-                        <MaskedInput className="small-input-field year-input-field" mask="1111" name="card" size="4" placeholder="ГГГГ"/>
-                        <Input className="small-input-field" placeholder="CVV"/>
+                        <MaskedInput className="small-input-field year-input-field" mask="1111" size="4" name="card" onChange={this.changeCardYear} placeholder="ГГГГ"/>
+                        <MaskedInput className="small-input-field year-input-field" placeholder="CVV" mask="111" size="3" onChange={this.changeCardCVV}/>
                     </Row>
                     <Row className="justify-content-center">
                         <div>Итого к оплате: {this.getCalculatedOrder() ? this.getCalculatedOrder().commonCost : ""} Р</div>
                     </Row>
-                    <div className="d-flex p-3 mb-3 border-top border-1 border-secondary justify-content-end">
-                        <Link to="/complete-order" className="button-color-one p-2">Подтвердить</Link>
-                    </div>
+                    {continueButton}
                 </Container>
             </div>
         );
