@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {addSeatToOrder, approveOrder, calculateOrder} from "../../actions/order_actions";
+import {approveOrder, calculateOrder} from "../../actions/order_actions";
 import OrderFilmPlate from "./OrderFilmPlate";
 import {Container, Input, Row} from "reactstrap";
 import MaskedInput from 'react-maskedinput'

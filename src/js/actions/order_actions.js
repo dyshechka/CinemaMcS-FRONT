@@ -1,5 +1,4 @@
 import {authHeader, baseUrlApi} from "../api";
-import * as qs from "querystring";
 
 export const selectSeanceWithFilm = (seanceWithFilm) => dispatch => {
     baseUrlApi.get('/hall-service/seats?hallId=' + seanceWithFilm.hallId + '&seanceId=' + seanceWithFilm.id, authHeader()).then(res => {

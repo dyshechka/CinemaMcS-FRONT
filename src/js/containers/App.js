@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Route, Router} from 'react-router';
 import history from '../util/history';
@@ -6,6 +6,7 @@ import SignIn from '../components/SignIn';
 import UserRouter from './UserRouter';
 import AdminRouter from './AdminRouter';
 import RedirectToSignInComponent from '../components/RedirectToSignComponent';
+import SignUp from "../components/SignUp";
 
 class App extends Component {
 
@@ -23,6 +24,7 @@ class App extends Component {
                 <div>
                     <RedirectToSignInComponent/>
                     <Route exact path='/' component={SignIn}/>
+                    <Route exact path='/signup' component={SignUp}/>
                     {userRoutes}
                     {adminRoutes}
                 </div>

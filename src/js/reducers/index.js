@@ -6,6 +6,7 @@ import films from "./films";
 import order from "./order";
 import hall from "./hall";
 import seance from "./seance";
+import userProfile from "./userProfile";
 
 export default combineReducers({
     authorization,
@@ -14,5 +15,6 @@ export default combineReducers({
     films,
     order,
     hall,
-    seance
+    seance,
+    userProfile
 });

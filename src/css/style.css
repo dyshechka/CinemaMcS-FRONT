@@ -224,3 +224,36 @@ a.button-color-one-selected:hover {
     border: 3px solid #81A2A7;
     padding: 20px;
 }
+
+.order-block-wrapper {
+    width: 600px;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.order-block {
+    flex-direction: column;
+    border: 2px solid #81A2A7;
+    padding: 20px;
+    margin: 10px;
+    width: 275px;
+}
+
+.sign-up-input-block {
+    width: 100px;
+}
+
+.sign-up-block {
+    width: 430px;
+    margin: 0 auto;
+}
+
+.sign-up-button {
+    width: 340px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.without-underline {
+    text-decoration: none;
+}

@@ -38,7 +38,7 @@ export const signIn = (username, password) => dispatch => {
 };
 
 export const signUp = (account) => dispatch => {
-    baseUrlApi.post('/register', account).then(() => {
+    userInfoApi.post('/users/create', account).then(() => {
         dispatch({
             type: 'SIGN_UP_SUCCESSFUL'
         });
