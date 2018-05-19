@@ -180,3 +180,12 @@ a.button-color-one-selected:hover {
     background-color: #C2D3DA;
     margin: 2%;
 }
+
+.large-input-field {
+    width: 340px;
+    margin: 10px;
+}
+.small-input-field {
+    width: 100px;
+    margin: 10px;
+}
