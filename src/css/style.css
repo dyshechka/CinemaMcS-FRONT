@@ -173,3 +173,10 @@ a.button-color-one-selected:hover {
     background-color: #272424;
     border: none;
 }
+
+.ticket-plate {
+    width: 46%;
+    padding: 20px;
+    background-color: #C2D3DA;
+    margin: 2%;
+}

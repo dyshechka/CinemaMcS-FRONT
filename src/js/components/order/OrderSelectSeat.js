@@ -1,7 +1,7 @@
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import React, {Component} from 'react';
-import {addSeatToOrder} from "../../actions/order_actions";
+import {addSeatToOrder, calculateOrder} from "../../actions/order_actions";
 import {Button, Container, Row} from "reactstrap";
 import WeekBar from "../WeekBar";
 import seance from "../../reducers/seance";
@@ -13,15 +13,16 @@ class OrderSelectSeat extends Component {
 
     createSeatsGrid = () => this.props.hall ? this.props.hall.rows.rows : [];
 
-    getHall = () => this.props.hall ? this.props.hall.rows.name : null;
-
     getSeance = () => this.props.seance ? this.props.seance : {};
 
-    getFilms = () => this.props.films ? this.props.films : [];
-
-    getSelectedSeats = () => this.props.selectedSeats ? this.props.selectedSeats : [];
+    getSelectedSeats = () => {
+        return this.props.selectedSeats.length > 0 ? this.props.selectedSeats : [];
+    };
 
     componentDidUpdate() {
+        if (!this.getSeance()) {
+            this.props.seance = this.props.loadSeance;
+        }
     }
 
     componentDidMount() {
@@ -32,15 +33,15 @@ class OrderSelectSeat extends Component {
 
     render() {
         const rows = this.createSeatsGrid() ? this.createSeatsGrid().map(row =>
-                <Row className="flex-row justify-content-center" key={"row" + row.rowNumber}>
-                    <div className="w-5 row-cell">
-                        <div>{row.rowNumber}</div>
-                    </div>
-                    <div className="w-90 row-block d-flex flex-row justify-content-center">
-                        {row.seats.map(seat => (<Seat key={seat.id} seat={seat}/>))}</div>
-                    <div className="w-5 row-cell"><div>{row.rowNumber}</div></div>
-                </Row>)
-            : (<div>loading...</div>);
+            <Row className="flex-row justify-content-center" key={"row" + row.rowNumber}>
+                <div className="w-5 row-cell">
+                    <div>{row.rowNumber}</div>
+                </div>
+                <div className="w-90 row-block d-flex flex-row justify-content-center">
+                    {row.seats.map(seat => (<Seat key={seat.id} seat={seat}/>))}</div>
+                <div className="w-5 row-cell"><div>{row.rowNumber}</div></div>
+            </Row>)
+        : (<div>loading...</div>);
 
         const legend = (
             <Row className="justify-content-center pt-3 mt-3 border-top border-1 border-secondary">
@@ -61,7 +62,7 @@ class OrderSelectSeat extends Component {
 
         const selectedSeats = (
             <Row className="justify-content-center pt-3 mt-3 border-top border-1 border-secondary">
-                {this.getSelectedSeats().map(seat => (<div>{seat}</div>))}
+                {this.getSelectedSeats().map(seat => (<div className="p-3" key={"seat-id-" + seat.id}>{"Ряд: " + seat.row + " Место: " + seat.number}</div>))}
             </Row>
         );
 
@@ -87,7 +88,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-    {loadSeance: seance, addSeatToOrder: addSeatToOrder},
+    {loadSeance: seance, addSeatToOrder: addSeatToOrder, calculateOrder: calculateOrder},
     dispatch
 );
 

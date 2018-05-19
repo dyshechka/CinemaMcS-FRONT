@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {addSeatToOrder} from "../../actions/order_actions";
+import {addSeatToOrder, removeSeatFromOrder} from "../../actions/order_actions";
 
 class Seat extends Component {
 
@@ -11,7 +11,19 @@ class Seat extends Component {
     };
 
     componentDidMount() {
-        this.state.selected = !this.props.seat.free;
+        this.setState({
+            blocked: !this.props.seat.free,
+            selected: this.props.selectedSeats.indexOf(this.props.seat) !== -1
+        });
+    }
+
+    componentDidUpdate() {
+        const selected = this.props.selectedSeats.indexOf(this.props.seat) !== -1;
+        if (selected !== this.state.selected) {
+            this.setState({
+                selected
+            });
+        }
     }
 
     buildSeatStyles = (seat) => {
@@ -28,30 +40,12 @@ class Seat extends Component {
     };
 
     handleSeatClick = (seat) => {
-        const seatId = seat.id;
-        let index = this.props.selectedSeats.indexOf(seatId);
-        if (index === -1) {
-            this.selectSeat(seatId);
+        const seatItem = seat;
+        if (this.state.selected) {
+            this.props.removeSeatFromOrder(seatItem);
         } else {
-            this.deselectSeat(seatId);
+            this.props.addSeatToOrder(seatItem);
         }
-    };
-
-    selectSeat = (seatId) => {
-        this.props.selectedSeats.push(seatId);
-        this.props.addSeatToOrder(this.props.selectedSeats);
-        this.setState({
-            selected: true
-        });
-    };
-
-    deselectSeat = (seatId) => {
-        let index = this.props.selectedSeats.indexOf(seatId);
-        if (index !== -1) this.props.selectedSeats.splice(index, 1);
-        this.props.addSeatToOrder(this.props.selectedSeats);
-        this.setState({
-            selected: false
-        });
     };
 
     render() {
@@ -69,7 +63,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-    {addSeatToOrder: addSeatToOrder},
+    {addSeatToOrder, removeSeatFromOrder},
     dispatch
 );
 

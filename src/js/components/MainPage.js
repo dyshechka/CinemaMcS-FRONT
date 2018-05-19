@@ -26,7 +26,6 @@ class MainPage extends Component {
     selectSeance(seance) {
         if (!this.props.seance) {
             this.props.selectSeanceWithFilm(seance);
-            console.log(seance);
         }
     }
 
