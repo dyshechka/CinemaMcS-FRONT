@@ -185,6 +185,12 @@ a.button-color-one-selected:hover {
     width: 340px;
     margin: 10px;
 }
+
+.medium-input-field {
+    width: 200px;
+    margin: 10px;
+}
+
 .small-input-field {
     width: 100px;
     margin: 10px;

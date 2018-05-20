@@ -7,6 +7,7 @@ import order from "./order";
 import hall from "./hall";
 import seance from "./seance";
 import userProfile from "./userProfile";
+import schedule from "./schedule";
 
 export default combineReducers({
     authorization,
@@ -16,5 +17,6 @@ export default combineReducers({
     order,
     hall,
     seance,
-    userProfile
+    userProfile,
+    schedule,
 });

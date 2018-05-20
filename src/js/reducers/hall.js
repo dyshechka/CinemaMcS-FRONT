@@ -6,6 +6,10 @@ export default function hall(state = initialState, action) {
             return {
                 rows: action.data,
             };
+        case 'HALLS_LOAD':
+            return {
+                halls: action.data,
+            };
         default:
             return state;
     }
