@@ -36,6 +36,8 @@ export default function order(state = initialState, action) {
                 calculatedOrder: null,
                 selectedSeats: []
             };
+        case 'LOGOUT':
+            return initialState;
         default:
             return state;
     }

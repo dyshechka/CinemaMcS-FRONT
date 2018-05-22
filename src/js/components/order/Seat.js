@@ -41,7 +41,7 @@ class Seat extends Component {
 
     handleSeatClick = (seat) => {
         const seatItem = seat;
-        if (this.state.selected) {
+        if (this.state.selected || this.props.selectedSeats && this.props.selectedSeats.length >= 10) {
             this.props.removeSeatFromOrder(seatItem);
         } else {
             this.props.addSeatToOrder(seatItem);

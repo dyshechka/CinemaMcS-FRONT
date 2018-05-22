@@ -7,6 +7,8 @@ export default function userProfile(state = initialState, action) {
                 ...state,
                 userOrders: action.data
             };
+        case 'LOGOUT':
+            return initialState;
         default:
             return state;
     }

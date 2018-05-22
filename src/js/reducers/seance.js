@@ -6,6 +6,8 @@ export default function seance(state = initialState, action) {
             return action.data;
         case 'CLEAN_ORDER':
             return null;
+        case 'LOGOUT':
+            return initialState;
         default:
             return state;
     }

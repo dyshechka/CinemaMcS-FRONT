@@ -97,6 +97,8 @@ export default function schedule(state = initialState, action) {
                 ...state,
                 scheduleDate: null
             };
+        case 'LOGOUT':
+            return initialState;
         default:
             return state;
     }

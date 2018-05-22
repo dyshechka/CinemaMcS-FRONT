@@ -10,6 +10,8 @@ export default function hall(state = initialState, action) {
             return {
                 halls: action.data,
             };
+        case 'LOGOUT':
+            return initialState;
         default:
             return state;
     }

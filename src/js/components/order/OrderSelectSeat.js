@@ -61,9 +61,14 @@ class OrderSelectSeat extends Component {
         );
 
         const selectedSeats = (
-            <Row className="justify-content-center pt-3 mt-3 border-top border-1 border-secondary">
-                {this.getSelectedSeats().map(seat => (<div className="p-3" key={"seat-id-" + seat.id}>{"Ряд: " + seat.row + " Место: " + seat.number}</div>))}
-            </Row>
+            <div>
+                {this.props.selectedSeats && this.props.selectedSeats.length >= 10 ? (
+                    <Row className="justify-content-center pt-3 mt-3">В одном заказе может быть не более 10 мест</Row>
+                ) : ""}
+                <Row className="justify-content-center pt-3 mt-3 border-top border-1 border-secondary">
+                    {this.getSelectedSeats().map(seat => (<div className="p-3" key={"seat-id-" + seat.id}>{"Ряд: " + seat.row + " Место: " + seat.number}</div>))}
+                </Row>
+            </div>
         );
 
         const continueButton = this.props.selectedSeats.length > 0 ? (
