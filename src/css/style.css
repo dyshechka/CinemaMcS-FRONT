@@ -263,3 +263,7 @@ a.button-color-one-selected:hover {
 .without-underline {
     text-decoration: none;
 }
+
+.add-seance-button {
+    border: none;
+}

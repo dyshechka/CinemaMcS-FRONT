@@ -80,7 +80,7 @@ class OrderPayment extends Component {
                         <Input className="large-input-field text-uppercase"  onChange={this.changeCardHolder} placeholder="ИМЯ И ФАМИЛИЯ ВЛАДЕЛЬЦА КАРТЫ"/>
                     </Row>
                     <Row className="justify-content-center">
-                        <Input type="select"className="small-input-field" placeholder="ММ">
+                        <Input type="select" className="small-input-field" placeholder="ММ">
                             {
                                 this.getMonths()
                             }

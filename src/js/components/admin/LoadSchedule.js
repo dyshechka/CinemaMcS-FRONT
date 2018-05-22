@@ -2,20 +2,24 @@ import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import moment from "moment/moment";
-import {Button, Input} from "reactstrap";
+import {Button, Card, Input} from "reactstrap";
 import {loadHalls} from "../../actions/hall_actions";
 import {
-    cleanScheduleFilms,
-    cleanScheduleSeances,
-    getFilmsByIds,
+    cleanScheduleFilmFormats,
+    cleanScheduleFilms, cleanScheduleFreeTime,
+    cleanScheduleSeances, getFilmFormats,
+    getFilmsDate, getFreeTimes,
     loadSeancesForDateAndHall
 } from "../../actions/schedule_actions";
+import {getFormattedDate, formatDuration} from "../../util/formatters";
+import AddSeance from "./AddSeance";
 
 class OrderPayment extends Component {
 
+    // TODO hardcoded
     state = {
-      hallId: null,
-      date: null,
+      hallId: 1,
+      date: 1526803200000,
     };
 
     componentDidMount() {
@@ -53,6 +57,8 @@ class OrderPayment extends Component {
         this.setState({date: date.getTime()});
         this.props.cleanScheduleSeances();
         this.props.cleanScheduleFilms();
+        this.props.cleanScheduleFreeTime();
+        this.props.cleanScheduleFilmFormats();
     };
 
     selectHall = (e) => {
@@ -64,35 +70,62 @@ class OrderPayment extends Component {
         this.setState({hallId: hallId});
         this.props.cleanScheduleSeances();
         this.props.cleanScheduleFilms();
+        this.props.cleanScheduleFreeTime();
     };
 
+    // Loads list of seances for selected date and hall
+    // Will work only if attributes: hall ID and date are filled by user
     loadSchedule = () => {
         this.state.hallId && this.state.date && this.props.seances === null ? this.props.loadSeancesForDateAndHall(this.state.date, this.state.hallId) : [];
     };
 
-    getFilmIds = () => {
-        let filmIds = [];
-        this.props.seances ? this.props.seances.map(seance => {
-            filmIds.push(seance.filmId);
-        }) : null;
-
-        return filmIds;
-    };
-
+    // Loads films according film ids which enable from seance list. Without seance list loading of films doens't make sense
     loadFilms = () => {
-        if (this.props.seances && this.props.seances.length > 0 && !this.props.films) {
-            this.props.getFilmsByIds(this.getFilmIds());
+        if (!this.props.films) {
+            this.props.getFilmsDate(this.state.date);
+        }
+        if (!this.props.filmFormats) {
+            this.props.getFilmFormats();
         }
     };
 
+    getFilmInfo = (filmId) => {
+        const info = this.props.films ? this.props.films.filter(film => film.id === filmId)[0] : null;
+        if (info == null) {
+            return "";
+        }
+
+        return (
+          <div>
+              <div>{info.name}</div>
+              <div>{formatDuration(info.duration)}</div>
+              <div>{info.ageRestrictions[0].name}</div>
+          </div>
+        );
+    };
+
     componentDidUpdate() {
-        console.log(this.props.seances);
-        console.log(this.props.films);
     }
 
     render() {
+
+        const seanceCellWidth = {
+            width: this.props.seances ? 100 / this.props.seances.length + 1 + "%" : 0,
+            cursor: "pointer"
+        };
+
+        const seances = this.props.seances ? this.props.seances.map(seance => (
+            <Card key={"seance-cell-" + seance.id} style={seanceCellWidth}>
+                <div>{getFormattedDate(seance.time)}</div>
+                <div>{this.getFilmInfo(seance.filmId)}</div>
+            </Card>
+        )) : (<div>Loading...</div>);
+
+        const freeTimes = this.props.freeTimes ? console.log(this.props.freeTimes) : "";
+
         return (
             <div>
+                {freeTimes}
                 {this.loadSchedule()}
                 <div className="text-center p-3">
                     <h3>Составить расписание</h3>
@@ -113,12 +146,14 @@ class OrderPayment extends Component {
                         </Input>
                     </div>
                 </div>
-                {/*<div className="justify-content-center d-flex">*/}
-                    {/*<Button onClick={() => this.loadFilms()}>Загрузить расписание</Button>*/}
-                {/*</div>*/}
-                <div>
-                    {this.loadFilms()}
+                {this.loadFilms()}
+                <div className="d-flex flex-row">
+                    {seances}
+                    <Card className="add-seance-button d-flex justify-content-center text-center" style={seanceCellWidth}>
+                        Добавить сеанс
+                    </Card>
                 </div>
+                <AddSeance filmFormats={this.props.filmFormats} hallId={this.state.hallId} date={this.state.date} freeTimes={this.props.freeTimes} films={this.props.films}/>
             </div>
         );
     }
@@ -127,11 +162,22 @@ class OrderPayment extends Component {
 const mapStateToProps = state => ({
     halls: state.hall ? state.hall.halls : [],
     films: state.schedule ? state.schedule.films : [],
+    filmFormats: state.schedule ? state.schedule.filmFormats : [],
     seances: state.schedule ? state.schedule.seances : []
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-    {loadHalls, loadSeancesForDateAndHall, cleanScheduleSeances, getFilmsByIds, cleanScheduleFilms},
+    {
+        loadHalls,
+        loadSeancesForDateAndHall,
+        cleanScheduleSeances,
+        getFilmsDate,
+        cleanScheduleFilms,
+        getFilmFormats,
+        cleanScheduleFilmFormats,
+        getFreeTimes,
+        cleanScheduleFreeTime,
+    },
     dispatch
 );
 

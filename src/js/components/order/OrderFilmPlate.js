@@ -2,14 +2,9 @@ import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {addSeatToOrder} from "../../actions/order_actions";
+import {getFormattedDate, formatDuration} from "../../util/formatters";
 
 class OrderFilmPlate extends Component {
-
-    formatDuration = (duration) => {
-        let hours = Math.floor(duration / 60) + " ч. ";
-        let minutes = duration % 60 + " мин.";
-        return hours + minutes;
-    };
 
     dateFormat = (timeStamp) => {
         let date = new Date(timeStamp);
@@ -43,7 +38,7 @@ class OrderFilmPlate extends Component {
                         index === film.genres.length - 1 ? item.name + " " : item.name + ", "))}
                     </div>
                     <div>
-                        {this.formatDuration(film.duration)}
+                        {formatDuration(film.duration)}
                     </div>
                 </div>
                 <div className="w-10 flex-column text-center">
