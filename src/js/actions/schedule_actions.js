@@ -6,6 +6,7 @@ export const loadSeancesForDateAndHall = (date, hallId) => dispatch => {
             type: 'SEANCES_FOR_DATE_AND_HALL',
             data: res.data
         });
+        console.log('load seanses for date');
     }).catch(reason => {
         console.log(reason);
     })
@@ -45,22 +46,12 @@ export const getFilmFormats = () => dispatch => {
 };
 
 export const addSeance = (seance) => dispatch => {
-    const data = {
-        filmId: seance.film.id,
-        hallId: seance.hallId,
-        filmFormat: seance.filmFormat,
-        availability: true,
-        time: seance.date
-    };
-    baseUrlApi.post('/seance-service/crud/seance', data, authHeader()).then(res => {
+    baseUrlApi.post('/seance-service/crud/seance', seance, authHeader()).then(res => {
         dispatch({
             type: 'ADD_SEANCE',
             data: res.data
         });
-        cleanScheduleSeances();
-        cleanScheduleFreeTime();
-        const date = new Date(seance.date.getFullYear(), seance.date.getMonth(), seance.date.getDate());
-        loadSeancesForDateAndHall(date, seance.hallId);
+        loadSeancesForDateAndHall(res.data.time, res.data.hallId)(dispatch);
     }).catch(reason => {
         console.log(reason);
     })
@@ -87,5 +78,70 @@ export const cleanScheduleFreeTime = () => dispatch => {
 export const cleanScheduleFilmFormats = () => dispatch => {
     dispatch({
         type: 'CLEAN_FILM_FORMATS_FOR_SCHEDULE'
+    })
+};
+
+export const selectDateInSchedule = (date) => dispatch => {
+    dispatch({
+        type: 'SELECT_DATE_IN_SCHEDULE',
+        data: date
+    })
+};
+
+export const cleanDateInSchedule = () => dispatch => {
+    dispatch({
+        type: 'CLEAN_DATE_IN_SCHEDULE',
+    })
+};
+
+export const selectFilmInSchedule = (film) => dispatch => {
+    dispatch({
+        type: 'SELECT_FILM_IN_SCHEDULE',
+        data: film
+    })
+};
+
+export const cleanFilmInSchedule = () => dispatch => {
+    dispatch({
+        type: 'CLEAN_FILM_IN_SCHEDULE',
+    })
+};
+
+export const selectTimeInSchedule = (time) => dispatch => {
+    dispatch({
+        type: 'SELECT_TIME_IN_SCHEDULE',
+        data: time
+    })
+};
+
+export const cleanTimeInSchedule = () => dispatch => {
+    dispatch({
+        type: 'CLEAN_TIME_IN_SCHEDULE',
+    })
+};
+
+export const selectHallInSchedule = (hall) => dispatch => {
+    dispatch({
+        type: 'SELECT_HALL_IN_SCHEDULE',
+        data: hall
+    })
+};
+
+export const cleanHallInSchedule = () => dispatch => {
+    dispatch({
+        type: 'CLEAN_HALL_IN_SCHEDULE',
+    })
+};
+
+export const selectFilmFormatInSchedule = (filmFormat) => dispatch => {
+    dispatch({
+        type: 'SELECT_FILM_FORMAT_IN_SCHEDULE',
+        data: filmFormat
+    })
+};
+
+export const cleanFilmFormatInSchedule = () => dispatch => {
+    dispatch({
+        type: 'CLEAN_FILM_FORMAT_IN_SCHEDULE',
     })
 };

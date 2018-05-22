@@ -47,6 +47,56 @@ export default function schedule(state = initialState, action) {
                 ...state,
                 filmFormats: null
             };
+        case 'SELECT_FILM_IN_SCHEDULE':
+            return {
+                ...state,
+                scheduleFilm: action.data
+            };
+        case 'CLEAN_FILM_IN_SCHEDULE':
+            return {
+                ...state,
+                scheduleFilm: null
+            };
+        case 'SELECT_TIME_IN_SCHEDULE':
+            return {
+                ...state,
+                scheduleTime: action.data
+            };
+        case 'CLEAN_TIME_IN_SCHEDULE':
+            return {
+                ...state,
+                scheduleTime: null
+            };
+        case 'SELECT_HALL_IN_SCHEDULE':
+            return {
+                ...state,
+                scheduleHall: action.data
+            };
+        case 'CLEAN_HALL_IN_SCHEDULE':
+            return {
+                ...state,
+                scheduleHall: null
+            };
+        case 'SELECT_FILM_FORMAT_IN_SCHEDULE':
+            return {
+                ...state,
+                scheduleFilmFormat: action.data
+            };
+        case 'CLEAN_FILM_FORMAT_IN_SCHEDULE':
+            return {
+                ...state,
+                scheduleFilmFormat: null
+            };
+        case 'SELECT_DATE_IN_SCHEDULE':
+            return {
+                ...state,
+                scheduleDate: action.data
+            };
+        case 'CLEAN_DATE_IN_SCHEDULE':
+            return {
+                ...state,
+                scheduleDate: null
+            };
         default:
             return state;
     }
