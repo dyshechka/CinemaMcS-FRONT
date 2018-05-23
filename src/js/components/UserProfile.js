@@ -34,7 +34,7 @@ class UserProfile extends Component {
                 <div className="text-center"><h3>Список заказов</h3></div>
                 <div className="d-flex flex-wrap order-block-wrapper">
                     {this.props.orderList ? this.props.orderList.map(order => (
-                        <div className="d-flex order-block">
+                        <div key={"order-" + order.orderId} className="d-flex order-block">
                             <div>{"Номер заказа: " + order.orderId}</div>
                             <div>{"Название фильма: " + order.tickets[0].film}</div>
                             <div>{"Стоимость: " + order.commonCost + "P"}</div>

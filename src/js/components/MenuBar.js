@@ -37,7 +37,7 @@ class MenuBar extends Component {
                 <Row className="justify-content-center">
                     <Link to='/schedule' className={this.getMenuActivePosition() === '/schedule' ? menuActiveButtonClasses : menuButtonClasses}>Расписание</Link>
                     <Link to='/films' className={this.getMenuActivePosition() === '/films' ? menuActiveButtonClasses : menuButtonClasses}>Фильмы</Link>
-                    <Button className="main-menu-button button-color-one">Вакансии</Button>
+                    <Link to='/vacancies' className="main-menu-button button-color-one">Вакансии</Link>
                     <Link to='/profile' className={this.getMenuActivePosition() === '/profile' ? menuActiveButtonClasses : menuButtonClasses}>Личный кабинет</Link>
                     <Button className="main-menu-button btn-danger" onClick={this.onLogout}>Выйти</Button>
                 </Row>

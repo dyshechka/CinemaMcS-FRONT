@@ -244,6 +244,21 @@ a.button-color-one-selected:hover {
     width: 275px;
 }
 
+.vacancy-block-wrapper {
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.vacancy-block {
+    flex-direction: column;
+    padding: 20px;
+    margin: 10px;
+}
+
+.vacancy-image {
+    /*background-image: url(../img/vacancy.png);*/
+}
+
 .sign-up-input-block {
     width: 100px;
 }

@@ -8,6 +8,7 @@ import hall from "./hall";
 import seance from "./seance";
 import userProfile from "./userProfile";
 import schedule from "./schedule";
+import vacancy from "./vacancy";
 
 export default combineReducers({
     authorization,
@@ -19,4 +20,5 @@ export default combineReducers({
     seance,
     userProfile,
     schedule,
+    vacancy,
 });
