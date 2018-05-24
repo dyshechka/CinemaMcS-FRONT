@@ -10,7 +10,7 @@ import {
     cleanFilmInSchedule, cleanHallInSchedule,
     cleanScheduleFilmFormats,
     cleanScheduleFilms, cleanScheduleFreeTime,
-    cleanScheduleSeances, cleanTimeInSchedule, getFilmFormats,
+    cleanScheduleSeances, cleanTimeInSchedule, deleteSeance, getFilmFormats,
     getFilmsDate, getFreeTimes,
     loadSeancesForDateAndHall, selectDateInSchedule, selectFilmFormatInSchedule, selectHallInSchedule
 } from "../../actions/schedule_actions";
@@ -150,6 +150,10 @@ class OrderPayment extends Component {
         })
     };
 
+    deleteSeance = (seanceId) => {
+        this.props.deleteSeance(seanceId);
+    };
+
     render() {
 
         const seanceCellWidth = {
@@ -158,6 +162,7 @@ class OrderPayment extends Component {
 
         const seances = this.props.seances ? this.props.seances.map(seance => (
             <div style={seanceCellWidth} className="order-block" key={"seance-" + seance.id}>
+                <div className="text-right text-danger delete-seance-button" onClick={() => this.deleteSeance(seance.id)}>Удалить сеанс</div>
                 <div className="p-1"><b>{getFormattedDate(seance.time)}</b></div>
                 <div className="p-1">{this.getFilmInfo(seance.filmId)}</div>
             </div>
@@ -231,7 +236,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
         selectHallInSchedule,
         cleanHallInSchedule,
         selectDateInSchedule,
-        cleanDateInSchedule
+        cleanDateInSchedule,
+        deleteSeance
     },
     dispatch
 );

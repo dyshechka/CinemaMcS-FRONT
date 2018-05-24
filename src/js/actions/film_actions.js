@@ -22,3 +22,14 @@ export const loadFilmsForDate = (date) => dispatch => {
         console.log(reason);
     })
 };
+
+export const loadMostExpectedFilms = () => dispatch => {
+    baseUrlApi.get('/film-service/getMostExpectedFilms', authHeader()).then(res => {
+        dispatch({
+            type: 'EXPECTED_FILMS_LOADED',
+            data: res.data
+        });
+    }).catch(reason => {
+        console.log(reason);
+    })
+};

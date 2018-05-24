@@ -8,6 +8,7 @@ import OrderPayment from "../components/order/OrderPayment";
 import OrderComplition from "../components/order/OrderComplition";
 import UserProfile from "../components/UserProfile";
 import VacanciesList from "../components/VacanciesList";
+import MostExpectedFilms from "../components/MostExpectedFilms";
 
 class UserRouter extends Component {
     render() {
@@ -22,6 +23,7 @@ class UserRouter extends Component {
                 <Route path="/complete-order" component={OrderComplition}/>
                 <Route path="/profile" component={UserProfile}/>
                 <Route path="/vacancies" component={VacanciesList}/>
+                <Route path="/getMostExpectedFilms" component={MostExpectedFilms}/>
             </div>
         );
     }

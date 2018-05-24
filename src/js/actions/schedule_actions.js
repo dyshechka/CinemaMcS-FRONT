@@ -57,6 +57,17 @@ export const addSeance = (seance) => dispatch => {
     })
 };
 
+export const deleteSeance = (seanceId) => dispatch => {
+    baseUrlApi.delete('/seance-service/delete/seance/' + seanceId, authHeader()).then(res => {
+        dispatch({
+            type: 'DELETE_SEANCE_IN_SCHEDULE',
+            data: res.data
+        });
+    }).catch(reason => {
+        console.log(reason);
+    })
+};
+
 export const cleanScheduleSeances = () => dispatch => {
     dispatch({
         type: 'CLEAN_SEANCES_FOR_DATE_AND_HALL'

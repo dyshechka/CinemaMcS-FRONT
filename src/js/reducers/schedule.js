@@ -92,6 +92,11 @@ export default function schedule(state = initialState, action) {
                 ...state,
                 scheduleDate: action.data
             };
+        case 'DELETE_SEANCE_IN_SCHEDULE':
+            return {
+                ...state,
+                seances: null
+            };
         case 'CLEAN_DATE_IN_SCHEDULE':
             return {
                 ...state,

@@ -42,7 +42,6 @@ export const calculateOrder = (calculateRequest) => dispatch => {
 
 export const approveOrder = (approveRequest) => dispatch => {
     baseUrlApi.post('/order-service/order/approve', approveRequest, authHeader()).then(res => {
-    // baseUrlApi.get('/order-service/order/mockOrder', authHeader()).then(res => {
         dispatch({
             type: 'APPROVE_ORDER',
             data: res.data

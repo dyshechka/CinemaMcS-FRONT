@@ -250,13 +250,13 @@ a.button-color-one-selected:hover {
 }
 
 .vacancy-block {
-    flex-direction: column;
+    flex-direction: row;
     padding: 20px;
     margin: 10px;
 }
 
 .vacancy-image {
-    /*background-image: url(../img/vacancy.png);*/
+    width: 300px;
 }
 
 .sign-up-input-block {
@@ -282,6 +282,10 @@ a.button-color-one-selected:hover {
     margin-top: 10px;
     height: 38px;
     margin-left: 10px;
+}
+
+.delete-seance-button {
+    cursor: pointer;
 }
 
 .add-button-wrapper {

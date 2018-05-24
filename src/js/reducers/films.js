@@ -6,6 +6,10 @@ export default function films(state = initialState, action) {
             return action.data;
         case 'FILMS_LOADED':
             return action.data;
+        case 'EXPECTED_FILMS_LOADED':
+            return {
+                mostExpectedFilms: action.data
+            };
         case 'LOGOUT':
             return initialState;
         default:
