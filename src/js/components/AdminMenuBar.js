@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Link, withRouter} from 'react-router-dom';
 
-class MenuBar extends Component {
+class AdminMenuBar extends Component {
 
     componentDidUpdate() {
         this.checkAndLoadAccount();
@@ -33,16 +33,14 @@ class MenuBar extends Component {
         const menuButtonClasses = 'main-menu-button button-color-one';
         const menuActiveButtonClasses = 'main-menu-button button-color-one-selected';
         const menuButtonStyle = {
-            width: 100 / 5 + "%",
+            width: 100 / 3 + "%",
             cursor: "pointer"
         };
         return (
             <Fragment>
                 <Row className="justify-content-center">
                     <Link to='/schedule' style={menuButtonStyle} className={this.getMenuActivePosition() === '/schedule' ? menuActiveButtonClasses : menuButtonClasses}>Расписание</Link>
-                    <Link to='/getMostExpectedFilms' style={menuButtonStyle} className={this.getMenuActivePosition() === '/getMostExpectedFilms' ? menuActiveButtonClasses : menuButtonClasses}>Ожидаемые фильмы</Link>
-                    <Link to='/vacancies' style={menuButtonStyle} className={this.getMenuActivePosition() === '/vacancies' ? menuActiveButtonClasses : menuButtonClasses}>Вакансии</Link>
-                    <Link to='/profile' style={menuButtonStyle} className={this.getMenuActivePosition() === '/profile' ? menuActiveButtonClasses : menuButtonClasses}>Личный кабинет</Link>
+                    <Link to='/addFilm' style={menuButtonStyle} className={this.getMenuActivePosition() === '/AddFilm' ? menuActiveButtonClasses : menuButtonClasses}>Добавить фильм</Link>
                     <Button style={menuButtonStyle} className="main-menu-button btn-danger" onClick={this.onLogout}>Выйти</Button>
                 </Row>
             </Fragment>
@@ -60,4 +58,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     dispatch
 );
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MenuBar));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AdminMenuBar));

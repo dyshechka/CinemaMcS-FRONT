@@ -21,7 +21,11 @@
 .main-menu-button {
     border-radius: 0;
     padding: 20px;
-    width: 20%;
+    align-content: center;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }
 
 .week-bar-button {
@@ -84,7 +88,6 @@
 
 .seat-vip {
     background-color: #81A2A7;
-    color: #ffffff;
 }
 
 .seat-selected {
@@ -118,7 +121,7 @@
 
 .button-color-one {
     background-color: #C2D3DA;
-    color: #000000;
+    color: #FFF;
     border: none;
     text-align: center;
 }
@@ -321,4 +324,13 @@ a.button-color-one-selected:hover {
 
 .add-seance-select-box {
     width: 33%;
+}
+
+.cancel-delete-seance-button {
+    background-color: #81A2A7;
+    border: none;
+}
+
+.seance-border-delete-dialog {
+    border-top: 1px dashed #dc3545;
 }

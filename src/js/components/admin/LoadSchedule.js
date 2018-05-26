@@ -24,7 +24,8 @@ class OrderPayment extends Component {
     }
 
     state = {
-        showAddSeanceButton: false
+        showAddSeanceButton: false,
+        deleteSeance: null
     };
 
     getDates = () => {
@@ -100,40 +101,50 @@ class OrderPayment extends Component {
         }
 
         return (
-            <div className="d-flex flex-row">
-                <div className="d-flex flex-column pr-4">
-                    <div className="pb-2">
-                        <div>{"Название: "}</div>
-                        <div>
-                            {film.name}
-                        </div>
+            <div className="d-flex flex-column">
+                <div className="d-flex flex-row">
+                    <div className="pb-2 pr-2">
+                        <b>{"Название: "}</b>
                     </div>
-                    <div className="pb-2">
-                        <div>{"Продолжительность: "}</div>
-                        <div>
-                            {formatDuration(film.duration)}
-                        </div>
-                    </div>
-                    <div className="d-flex flex-column pb-2">
-                        <div className="pr-2">{"Жанр: "}</div>
-                        <div className="d-flex flex-row">
-                            {film.genres.map((g, index) => <div key={"genre-" + index}>{index === film.genres.length - 1 ? g.name + "" : g.name + ","}</div>)}
-                        </div>
+                    <div>
+                        {film.name}
                     </div>
                 </div>
-                <div className="d-flex flex-column pr-4">
-                    <div className="pb-2">
-                        <div>{"Возрастные ограничения: "}</div>
-                        <div>
-                            {film.ageRestrictions[0].name}
-                        </div>
+                <div className="d-flex flex-row">
+                    <div className="pb-2 pr-2">
+                        <b>{"Продолжительность: "}</b>
                     </div>
-                    <div className="pb-2">{"IMDB: " + film.imdb}</div>
-                    <div className="d-flex flex-column">
-                        <div className="pr-1">{"Страна: "}</div>
-                        <div className="d-flex flex-row">
-                            {film.countries.map((r, index) => <div key={"country-" + index}>{index === film.countries.length - 1 ? r.name + "" : r.name + ","}</div>)}
-                        </div>
+                    <div>
+                        {formatDuration(film.duration)}
+                    </div>
+                </div>
+                <div className="d-flex flex-row">
+                    <div className="pb-2 pr-2">
+                        <b>{"Жанр: "}</b>
+                    </div>
+                    <div className="d-flex flex-row">
+                        {film.genres.map((g, index) => <div key={"genre-" + index}>{index === film.genres.length - 1 ? g.name + "" : g.name + ","}</div>)}
+                    </div>
+                </div>
+                <div className="d-flex flex-row">
+                    <div className="pb-2 pr-2">
+                        <b>{"Возрастные ограничения: "}</b>
+                    </div>
+                    <div>
+                        {film.ageRestrictions[0].name}
+                    </div>
+                </div>
+                <div className="d-flex flex-row">
+                    <div className="pb-2 pr-2">
+                        <b>{"IMDB: "}</b>{film.imdb}
+                    </div>
+                </div>
+                <div className="d-flex flex-row">
+                    <div className="pb-2 pr-2">
+                        <b>{"Страна: "}</b>
+                    </div>
+                    <div className="d-flex flex-row">
+                        {film.countries.map((r, index) => <div key={"country-" + index}>{index === film.countries.length - 1 ? r.name + "" : r.name + ","}</div>)}
                     </div>
                 </div>
             </div>
@@ -154,17 +165,53 @@ class OrderPayment extends Component {
         this.props.deleteSeance(seanceId);
     };
 
-    render() {
+    callDeleteDialog = (seanceId) => {
+        this.resetDeleteDialog();
+        this.setState(
+            {
+                ...this.state,
+                deleteSeance: seanceId
+            }
+        );
+    };
 
+    resetDeleteDialog = () => {
+        this.setState(
+            {
+                ...this.state,
+                deleteSeance: null
+            }
+        )
+    };
+
+    render() {
         const seanceCellWidth = {
             width: 350 + "px",
         };
 
         const seances = this.props.seances ? this.props.seances.map(seance => (
             <div style={seanceCellWidth} className="order-block" key={"seance-" + seance.id}>
-                <div className="text-right text-danger delete-seance-button" onClick={() => this.deleteSeance(seance.id)}>Удалить сеанс</div>
-                <div className="p-1"><b>{getFormattedDate(seance.time)}</b></div>
+                <div className="p-1">
+                    <div className="d-flex flex-row">
+                        <b>{"Время сеанса: " + getFormattedDate(seance.time)}</b>
+                    </div>
+                </div>
                 <div className="p-1">{this.getFilmInfo(seance.filmId)}</div>
+                <div className="text-center">
+                    {
+                        this.state.deleteSeance && this.state.deleteSeance === seance.id ? (
+                            <div className="d-flex flex-column justify-content-center seance-border-delete-dialog pt-2">
+                                <div className="d-flex justify-content-end mb-2 font-weight-bold">Вы уверены, что хотите удалить сеанс?</div>
+                                <div className="d-flex flex-row justify-content-center">
+                                    <div style={{width: 100 + "px"}} className="text-center btn btn-danger mr-2" onClick={() => this.deleteSeance(seance.id)}>Да</div>
+                                    <div style={{width: 100 + "px"}} className="text-center btn btn-secondary cancel-delete-seance-button" onClick={() => this.resetDeleteDialog()}>Нет</div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="text-right btn btn-danger" onClick={() => this.callDeleteDialog(seance.id)}>Удалить сеанс</div>
+                        )
+                    }
+                </div>
             </div>
         )) : ("");
 
@@ -197,12 +244,21 @@ class OrderPayment extends Component {
                     </div>
                 </div>
                 {this.loadFilms()}
-                <div className="d-flex flex-row flex-wrap seance-wrapper">
-                    {seances}
-                </div>
                 {
                     this.state.showAddSeanceButton ? (
                         <AddSeance filmFormats={this.props.filmFormats} hallId={this.props.selectedHall} date={this.props.selectedDate} freeTimes={this.props.freeTimes} films={this.props.films}/>
+                    ) : ("")
+                }
+                {
+                    seances ? (
+                        <div>
+                            <div className="text-center">
+                                <h3>Список сеансов</h3>
+                            </div>
+                            <div className="d-flex flex-row flex-wrap seance-wrapper">
+                                {seances}
+                            </div>
+                        </div>
                     ) : ("")
                 }
             </div>
