@@ -5,7 +5,17 @@ export default function filmCrud(state = initialState, action) {
         case 'ADD_FILM':
             return {
                 ...state,
-                crudFilm: action.data
+                addFilm: action.data
+            };
+        case 'CLEAN_ADD_FILM':
+            return {
+                ...state,
+                addFilm: null
+            };
+        case 'SET_ADD_FILM':
+            return {
+                ...state,
+                addFilm: action.data
             };
         case 'APPLY_EDIT_FILM':
             return {
@@ -24,7 +34,6 @@ export default function filmCrud(state = initialState, action) {
         case 'DELETE_FILM':
             return {
                 ...state,
-                crudFilm: action.data
             };
         case 'GET_FILM':
             return {
@@ -85,6 +94,21 @@ export default function filmCrud(state = initialState, action) {
             return {
                 ...state,
                 allAgeRestrictions: []
+            };
+        case 'GET_ALL_RENTAL_PERIODS':
+            return {
+                ...state,
+                allRentalPeriods: action.data
+            };
+        case 'SET_ALL_RENTAL_PERIODS':
+            return {
+                ...state,
+                allRentalPeriods: action.data
+            };
+        case 'CLEAN_ALL_RENTAL_PERIODS':
+            return {
+                ...state,
+                allRentalPeriods: []
             };
         case 'LOGOUT':
             return initialState;

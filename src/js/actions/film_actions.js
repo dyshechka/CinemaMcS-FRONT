@@ -114,6 +114,17 @@ export const applyEditFilm = (editedFilm) => dispatch => {
     })
 };
 
+export const getAllRentalPeriods = () => dispatch => {
+    baseUrlApi.get('/film-service/crud/rentalPeriods', authHeader()).then(res => {
+        dispatch({
+            type: 'GET_ALL_RENTAL_PERIODS',
+            data: res.data
+        });
+    }).catch(reason => {
+        console.log(reason);
+    })
+};
+
 export const cleanSelectedCountries = () => dispatch => {
     dispatch({
         type: 'CLEAN_SELECTED_COUNTRIES'
@@ -155,6 +166,13 @@ export const cleanEditFilm = () => dispatch => {
 export const setEditFilm = (film) => dispatch => {
     dispatch({
         type: 'EDIT_FILM',
+        data: film
+    })
+};
+
+export const setAddFilm = (film) => dispatch => {
+    dispatch({
+        type: 'SET_ADD_FILM',
         data: film
     })
 };

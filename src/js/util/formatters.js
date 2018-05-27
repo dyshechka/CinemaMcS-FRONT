@@ -15,3 +15,12 @@ export const getFormattedDate = (timeStamp) => {
     formatDate = formatDate + minutes;
     return formatDate;
 };
+
+export const getFormattedDateOnlyDay = (timeStamp) => {
+    let date = new Date(timeStamp);
+    let formatDate = date.getDate();
+    const intMonth = date.getMonth() + 1;
+    const month = intMonth < 10 ? "0" + intMonth : intMonth;
+    formatDate = formatDate + '.' + month + '.' + date.getFullYear() + ' ';
+    return formatDate;
+};

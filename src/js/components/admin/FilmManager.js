@@ -3,6 +3,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Button, Input, Table} from "reactstrap";
 import {
+    addNewFilm,
     applyEditFilm,
     cleanEditFilm,
     cleanSelectedCountries,
@@ -11,13 +12,14 @@ import {
     getAllAgeRestrictions,
     getAllCountries,
     getAllFilms,
-    getAllGenres,
+    getAllGenres, getAllRentalPeriods, setAddFilm,
     setEditFilm,
     setSelectedCountries,
     setSelectedGenres
 } from "../../actions/film_actions";
 import {FaPencil} from "react-icons/lib/fa/index";
 import {MdDeleteForever} from "react-icons/lib/md/index";
+import {getFormattedDate, getFormattedDateOnlyDay} from "../../util/formatters";
 
 class FilmManager extends Component {
 
@@ -38,12 +40,15 @@ class FilmManager extends Component {
         if (!this.props.allAgeRestrictions) {
             this.props.getAllAgeRestrictions();
         }
+        if (!this.props.allRentalPeriods) {
+            this.props.getAllRentalPeriods();
+        }
     }
 
     crudPanel = () => {
         return (
             <div className="d-flex flex-row pt-3 pb-3">
-                <Button className="btn btn-success mr-2">
+                <Button onClick={() => this.createFilm()} className="btn btn-success mr-2">
                     Добавить фильм
                 </Button>
             </div>
@@ -57,6 +62,20 @@ class FilmManager extends Component {
     selectFilm = (filmId) => {
         const selectedEditFilm = Object.assign({}, this.getFilmById(filmId));
         this.props.setEditFilm(selectedEditFilm);
+    };
+
+    createFilm = () => {
+        const newFilm = {
+            name: null,
+            duration: null,
+            imdb: null,
+            ageRestrictions: [],
+            countries: [],
+            genres: [],
+            rentalPeriod: null
+        };
+
+        this.props.setAddFilm(newFilm);
     };
 
     getGenresList = () => {
@@ -110,6 +129,23 @@ class FilmManager extends Component {
         )
     };
 
+    getRentalPeriods = () => {
+        const crudRentalPeriod = this.props.editFilm.rentalPeriod.id;
+        return (
+            this.props.allRentalPeriods.map(rentalPeriod => (
+                <label className="pr-3" key={"rentalPeriod-label" + rentalPeriod.id}>
+                    <input key={"rentalPeriod-id-" + rentalPeriod.id}
+                           name={"rentalPeriod" + rentalPeriod.id}
+                           type="checkbox"
+                           checked={rentalPeriod.id === crudRentalPeriod}
+                           value={rentalPeriod.id}
+                           onChange={this.handleRentalPeriodChange} />
+                    <span className="pl-1">{getFormattedDateOnlyDay(rentalPeriod.dateBegin)} - {getFormattedDateOnlyDay(rentalPeriod.dateEnd)}</span>
+                </label>
+            ))
+        )
+    };
+
     changeFilmName = (e) => {
         this.changeField("name", e.target.value);
     };
@@ -127,6 +163,16 @@ class FilmManager extends Component {
         editFilm = {
             ...editFilm,
             [attr]: value
+        };
+        this.props.setEditFilm(editFilm);
+    };
+
+    handleRentalPeriodChange = (event) => {
+        const target = event.target;
+        let editFilm = this.props.editFilm;
+        editFilm = {
+            ...editFilm,
+            rentalPeriod: this.props.allRentalPeriods.filter(rp => rp.id == target.value)[0]
         };
         this.props.setEditFilm(editFilm);
     };
@@ -276,6 +322,14 @@ class FilmManager extends Component {
                         {this.getAgeRestrictionsList()}
                     </div>
                 </div>
+                <div className="d-flex flex-column pb-2">
+                    <div className="flex-row">
+                        <b>{"Период проката:"}</b>
+                    </div>
+                    <div>
+                        {this.getRentalPeriods()}
+                    </div>
+                </div>
                 <Button className="btn btn-info mr-2" onClick={() => this.props.applyEditFilm(this.props.editFilm)}>
                     Редактировать фильм
                 </Button>
@@ -319,7 +373,9 @@ const mapStateToProps = state => ({
     allGenres: state.filmCrud ? state.filmCrud.allGenres : null,
     allCountries: state.filmCrud ? state.filmCrud.allCountries : null,
     allAgeRestrictions: state.filmCrud ? state.filmCrud.allAgeRestrictions : null,
+    allRentalPeriods: state.filmCrud ? state.filmCrud.allRentalPeriods : null,
     editFilm: state.filmCrud ? state.filmCrud.editFilm : null,
+    addFilm: state.filmCrud ? state.filmCrud.addFilm : null,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -336,6 +392,9 @@ const mapDispatchToProps = dispatch => bindActionCreators(
         setSelectedCountries,
         getAllAgeRestrictions,
         deleteFilm,
+        addNewFilm,
+        setAddFilm,
+        getAllRentalPeriods,
     },
     dispatch
 );
