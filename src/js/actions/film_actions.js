@@ -66,6 +66,41 @@ export const getAllGenres = () => dispatch => {
     })
 };
 
+export const getAllCountries = () => dispatch => {
+    baseUrlApi.get('/film-service/crud/countries', authHeader()).then(res => {
+        dispatch({
+            type: 'GET_ALL_COUNTRIES',
+            data: res.data
+        });
+    }).catch(reason => {
+        console.log(reason);
+    })
+};
+
+export const getAllAgeRestrictions = () => dispatch => {
+    baseUrlApi.get('/film-service/crud/ageRestrictions', authHeader()).then(res => {
+        dispatch({
+            type: 'GET_ALL_AGE_RESTRICTIONS',
+            data: res.data
+        });
+    }).catch(reason => {
+        console.log(reason);
+    })
+};
+
+export const deleteFilm = (id) => dispatch => {
+    baseUrlApi.patch('/film-service/crud/film?filmId=' + id, authHeader()).then(res => {
+        dispatch({
+            type: 'DELETE_FILM',
+        });
+        cleanAllFilms()(dispatch);
+        getAllFilms()(dispatch);
+        cleanEditFilm()(dispatch);
+    }).catch(reason => {
+        console.log(reason);
+    })
+};
+
 export const applyEditFilm = (editedFilm) => dispatch => {
     baseUrlApi.patch('/film-service/crud/film', editedFilm, authHeader()).then(res => {
         dispatch({
@@ -79,15 +114,22 @@ export const applyEditFilm = (editedFilm) => dispatch => {
     })
 };
 
-export const cleanSelectedGenres = () => dispatch => {
+export const cleanSelectedCountries = () => dispatch => {
     dispatch({
-        type: 'CLEAN_SELECTED_GENRES'
+        type: 'CLEAN_SELECTED_COUNTRIES'
     })
 };
 
-export const cleanAllFilms = () => dispatch => {
+export const setSelectedCountries = (countries) => dispatch => {
     dispatch({
-        type: 'CLEAN_ALL_FILMS'
+        type: 'SET_SELECTED_GENRES',
+        data: countries
+    })
+};
+
+export const cleanSelectedGenres = () => dispatch => {
+    dispatch({
+        type: 'CLEAN_SELECTED_GENRES'
     })
 };
 
@@ -95,6 +137,12 @@ export const setSelectedGenres = (genres) => dispatch => {
     dispatch({
         type: 'SET_SELECTED_GENRES',
         data: genres
+    })
+};
+
+export const cleanAllFilms = () => dispatch => {
+    dispatch({
+        type: 'CLEAN_ALL_FILMS'
     })
 };
 

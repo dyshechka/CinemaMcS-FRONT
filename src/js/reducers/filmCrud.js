@@ -56,6 +56,36 @@ export default function filmCrud(state = initialState, action) {
                 ...state,
                 selectedGenres: []
             };
+        case 'GET_ALL_COUNTRIES':
+            return {
+                ...state,
+                allCountries: action.data
+            };
+        case 'SET_SELECTED_COUNTRIES':
+            return {
+                ...state,
+                selectedCounties: action.data
+            };
+        case 'CLEAN_SELECTED_COUNTRIES':
+            return {
+                ...state,
+                selectedCounties: []
+            };
+        case 'GET_ALL_AGE_RESTRICTIONS':
+            return {
+                ...state,
+                allAgeRestrictions: action.data
+            };
+        case 'SET_AGE_RESTRICTIONS':
+            return {
+                ...state,
+                allAgeRestrictions: action.data
+            };
+        case 'CLEAN_AGE_RESTRICTIONS':
+            return {
+                ...state,
+                allAgeRestrictions: []
+            };
         case 'LOGOUT':
             return initialState;
         default:

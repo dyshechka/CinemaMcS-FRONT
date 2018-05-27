@@ -339,3 +339,16 @@ a.button-color-one-selected:hover {
     width: 185px;
     line-height: 35px;
 }
+
+.film-table-td {
+    height: 50px;
+    padding-top: 20px!important;
+}
+
+.action-button {
+    font-size: 30px;
+}
+
+.pencil-action-button {
+    color: #81A2A7;
+}
