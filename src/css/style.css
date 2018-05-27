@@ -334,3 +334,8 @@ a.button-color-one-selected:hover {
 .seance-border-delete-dialog {
     border-top: 1px dashed #dc3545;
 }
+
+.edit-film-label {
+    width: 185px;
+    line-height: 35px;
+}

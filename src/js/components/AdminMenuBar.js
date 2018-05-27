@@ -40,7 +40,7 @@ class AdminMenuBar extends Component {
             <Fragment>
                 <Row className="justify-content-center">
                     <Link to='/schedule' style={menuButtonStyle} className={this.getMenuActivePosition() === '/schedule' ? menuActiveButtonClasses : menuButtonClasses}>Расписание</Link>
-                    <Link to='/addFilm' style={menuButtonStyle} className={this.getMenuActivePosition() === '/AddFilm' ? menuActiveButtonClasses : menuButtonClasses}>Добавить фильм</Link>
+                    <Link to='/addFilm' style={menuButtonStyle} className={this.getMenuActivePosition() === '/addFilm' ? menuActiveButtonClasses : menuButtonClasses}>Добавить фильм</Link>
                     <Button style={menuButtonStyle} className="main-menu-button btn-danger" onClick={this.onLogout}>Выйти</Button>
                 </Row>
             </Fragment>

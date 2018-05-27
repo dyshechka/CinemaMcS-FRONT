@@ -9,6 +9,7 @@ import seance from "./seance";
 import userProfile from "./userProfile";
 import schedule from "./schedule";
 import vacancy from "./vacancy";
+import filmCrud from "./filmCrud";
 
 export default combineReducers({
     authorization,
@@ -21,4 +22,5 @@ export default combineReducers({
     userProfile,
     schedule,
     vacancy,
+    filmCrud
 });

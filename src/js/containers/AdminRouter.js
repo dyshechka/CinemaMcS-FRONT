@@ -3,7 +3,7 @@ import AdminMenuBar from "../components/AdminMenuBar";
 import UserProfile from "../components/UserProfile";
 import {Route} from "react-router-dom";
 import CreateSchedule from "../components/admin/LoadSchedule";
-import AddFilm from "../components/admin/AddFilm";
+import AddFilm from "../components/admin/FilmManager";
 
 class AdminRouter extends Component {
     render() {
