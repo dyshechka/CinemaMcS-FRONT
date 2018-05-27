@@ -95,6 +95,23 @@ class FilmManager extends Component {
         )
     };
 
+    getAddingGenresList = () => {
+        const genreList = this.props.addFilm.genres.map(g => g.name);
+        return (
+            this.props.allGenres.map(genre => (
+                <label className="pr-3" key={"genre-label" + genre.id}>
+                    <input key={"genre-id-" + genre.id}
+                           name={"genre" + genre.id}
+                           type="checkbox"
+                           checked={genreList.indexOf(genre.name) > -1}
+                           value={genre.id}
+                           onChange={this.handleAddingGenreChange} />
+                    <span className="pl-1">{genre.name}</span>
+                </label>
+            ))
+        )
+    };
+
     getCountriesList = () => {
         const countryList = this.props.editFilm.countries.map(c => c.name);
         return (
@@ -106,6 +123,23 @@ class FilmManager extends Component {
                            checked={countryList.indexOf(country.name) > -1}
                            value={country.id}
                            onChange={this.handleCountryChange} />
+                    <span className="pl-1">{country.name}</span>
+                </label>
+            ))
+        )
+    };
+
+    getAddingCountriesList = () => {
+        const countryList = this.props.addFilm.countries.map(c => c.name);
+        return (
+            this.props.allCountries.map(country => (
+                <label className="pr-3" key={"country-label" + country.id}>
+                    <input key={"country-id-" + country.id}
+                           name={"country" + country.id}
+                           type="checkbox"
+                           checked={countryList.indexOf(country.name) > -1}
+                           value={country.id}
+                           onChange={this.handleAddingCountryChange} />
                     <span className="pl-1">{country.name}</span>
                 </label>
             ))
@@ -235,6 +269,35 @@ class FilmManager extends Component {
         }
     };
 
+    handleAddingCountryChange = (event) => {
+        const target = event.target;
+        let selectedCountries = this.props.addFilm.countries;
+        const checkExisting = selectedCountries.filter(country => country.id == target.value);
+
+        if (checkExisting.length > 0) {
+            selectedCountries.forEach((selectedCountry, index) => {
+                if (selectedCountry.id == target.value && selectedCountries.length - 1 !== 0) {
+                    selectedCountries.splice(index, 1);
+                }
+            });
+            let addFilm = this.props.addFilm;
+            addFilm = {
+                ...addFilm,
+                countries: selectedCountries
+            };
+            this.props.setAddFilm(addFilm);
+        } else {
+            const selectedCountryFromCommonList = this.props.allCountries.filter(c => c.id == target.value)[0];
+            selectedCountries.push(selectedCountryFromCommonList);
+            let addFilm = this.props.addFilm;
+            addFilm = {
+                ...addFilm,
+                countries: selectedCountries
+            };
+            this.props.setAddFilm(addFilm);
+        }
+    };
+
     handleGenreChange = (event) => {
         const target = event.target;
         let selectedGenres = this.props.editFilm.genres;
@@ -261,6 +324,35 @@ class FilmManager extends Component {
                 genres: selectedGenres
             };
             this.props.setEditFilm(editFilm);
+        }
+    };
+
+    handleAddingGenreChange = (event) => {
+        const target = event.target;
+        let selectedGenres = this.props.addFilm.genres;
+        const checkExisting = selectedGenres.filter(genre => genre.id == target.value);
+
+        if (checkExisting.length > 0) {
+            selectedGenres.forEach((selectedGenre, index) => {
+                if (selectedGenre.id == target.value && selectedGenres.length - 1 !== 0) {
+                    selectedGenres.splice(index, 1);
+                }
+            });
+            let addFilm = this.props.addFilm;
+            addFilm = {
+                ...addFilm,
+                genres: selectedGenres
+            };
+            this.props.setAddFilm(addFilm);
+        } else {
+            const selectedGenreFromCommonList = this.props.allGenres.filter(g => g.id == target.value)[0];
+            selectedGenres.push(selectedGenreFromCommonList);
+            let addFilm = this.props.addFilm;
+            addFilm = {
+                ...addFilm,
+                genres: selectedGenres
+            };
+            this.props.setAddFilm(addFilm);
         }
     };
 
@@ -336,6 +428,61 @@ class FilmManager extends Component {
             </div>
         ) : null;
 
+        const createFilm = this.props.addFilm ? (
+            <div className="d-flex flex-column border-top border-secondary">
+                <div className="pb-4 pt-4 text-center">
+                    <h3>Добавление фильма</h3>
+                </div>
+                <div className="d-flex flex-column">
+                    <div className="d-flex flex-row pb-2">
+                        <b className="edit-film-label">Название:</b> <Input style={{width: 300 + "px"}}/>
+                    </div>
+                    <div className="d-flex flex-row pb-2">
+                        <b className="edit-film-label">Продолжительность:</b> <Input style={{width: 300 + "px"}} type="number" />
+                    </div>
+                    <div className="d-flex flex-row pb-2">
+                        <b className="edit-film-label">Рейтинг (IMDb): </b><Input style={{width: 300 + "px"}} type="number"/>
+                    </div>
+                </div>
+                <div className="d-flex flex-column pb-2">
+                    <div className="flex-row">
+                        <b>{"Жанры:"}</b>
+                    </div>
+                    <div className="flex-row">
+                        {this.getAddingGenresList()}
+                    </div>
+                </div>
+                <div className="d-flex flex-column pb-2">
+                    <div className="flex-row">
+                        <b>{"Страны:"}</b>
+                    </div>
+                    <div className="flex-row">
+                        {this.getAddingCountriesList()}
+                    </div>
+                </div>
+                <div className="d-flex flex-column pb-2">
+                    <div className="flex-row">
+                        <b>{"Возрастные ограничения:"}</b>
+                    </div>
+                    <div>
+                        {/*{this.getAgeRestrictionsList()}*/}
+                    </div>
+                </div>
+                <div className="d-flex flex-column pb-2">
+                    <div className="flex-row">
+                        <b>{"Период проката:"}</b>
+                    </div>
+                    <div>
+                        {/*{this.getRentalPeriods()}*/}
+                    </div>
+                </div>
+                <Button className="btn btn-info mr-2">
+                    Добавить фильм
+                </Button>
+            </div>
+        ) : null;
+
+
         return (
             <div>
                 <div>
@@ -360,6 +507,11 @@ class FilmManager extends Component {
                 <div className="d-flex flex-column">
                     <div>
                         {editFilm}
+                    </div>
+                </div>
+                <div className="d-flex flex-column">
+                    <div>
+                        {createFilm}
                     </div>
                 </div>
                 {this.crudPanel()}
