@@ -39,6 +39,10 @@ export const addNewFilm = (newFilm) => dispatch => {
         dispatch({
             type: 'ADD_FILM',
         });
+        cleanAllFilms()(dispatch);
+        getAllFilms()(dispatch);
+        cleanEditFilm()(dispatch);
+        cleanAddFilm()(dispatch);
     }).catch(reason => {
         console.log(reason);
     })
@@ -89,7 +93,7 @@ export const getAllAgeRestrictions = () => dispatch => {
 };
 
 export const deleteFilm = (id) => dispatch => {
-    baseUrlApi.patch('/film-service/crud/film?filmId=' + id, authHeader()).then(res => {
+    baseUrlApi.delete('/film-service/crud/film?filmId=' + id, authHeader()).then(res => {
         dispatch({
             type: 'DELETE_FILM',
         });
@@ -148,6 +152,12 @@ export const setSelectedGenres = (genres) => dispatch => {
     dispatch({
         type: 'SET_SELECTED_GENRES',
         data: genres
+    })
+};
+
+export const cleanAddFilm = () => dispatch => {
+    dispatch({
+        type: 'CLEAN_ADD_FILM'
     })
 };
 

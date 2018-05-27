@@ -46,13 +46,13 @@ class FilmManager extends Component {
     }
 
     crudPanel = () => {
-        return (
+        return !this.props.addFilm ? (
             <div className="d-flex flex-row pt-3 pb-3">
                 <Button onClick={() => this.createFilm()} className="btn btn-success mr-2">
                     Добавить фильм
                 </Button>
             </div>
-        )
+        ) : ("");
     };
 
     getFilmById = (filmId) => {
@@ -163,6 +163,23 @@ class FilmManager extends Component {
         )
     };
 
+    getAddingAgeRestrictionsList = () => {
+        const ageRestrictionsList = this.props.addFilm.ageRestrictions.map(c => c.name);
+        return (
+            this.props.allAgeRestrictions.map(ageRestriction => (
+                <label className="pr-3" key={"ageRestriction-label" + ageRestriction.id}>
+                    <input key={"ageRestriction-id-" + ageRestriction.id}
+                           name={"ageRestriction" + ageRestriction.id}
+                           type="checkbox"
+                           checked={ageRestrictionsList.indexOf(ageRestriction.name) > -1}
+                           value={ageRestriction.id}
+                           onChange={this.handleAddingAgeRestrictionsChange} />
+                    <span className="pl-1">{ageRestriction.name}</span>
+                </label>
+            ))
+        )
+    };
+
     getRentalPeriods = () => {
         const crudRentalPeriod = this.props.editFilm.rentalPeriod.id;
         return (
@@ -174,6 +191,23 @@ class FilmManager extends Component {
                            checked={rentalPeriod.id === crudRentalPeriod}
                            value={rentalPeriod.id}
                            onChange={this.handleRentalPeriodChange} />
+                    <span className="pl-1">{getFormattedDateOnlyDay(rentalPeriod.dateBegin)} - {getFormattedDateOnlyDay(rentalPeriod.dateEnd)}</span>
+                </label>
+            ))
+        )
+    };
+
+    getAddingRentalPeriods = () => {
+        const crudRentalPeriod = this.props.addFilm.rentalPeriod ? this.props.addFilm.rentalPeriod.id : 0;
+        return (
+            this.props.allRentalPeriods.map(rentalPeriod => (
+                <label className="pr-3" key={"rentalPeriod-label" + rentalPeriod.id}>
+                    <input key={"rentalPeriod-id-" + rentalPeriod.id}
+                           name={"rentalPeriod" + rentalPeriod.id}
+                           type="checkbox"
+                           checked={rentalPeriod.id === crudRentalPeriod}
+                           value={rentalPeriod.id}
+                           onChange={this.handleAddRentalPeriodChange} />
                     <span className="pl-1">{getFormattedDateOnlyDay(rentalPeriod.dateBegin)} - {getFormattedDateOnlyDay(rentalPeriod.dateEnd)}</span>
                 </label>
             ))
@@ -201,6 +235,27 @@ class FilmManager extends Component {
         this.props.setEditFilm(editFilm);
     };
 
+    changeAddFilmName = (e) => {
+        this.changeAddField("name", e.target.value);
+    };
+
+    changeAddDuration = (e) => {
+        this.changeAddField("duration", e.target.value);
+    };
+
+    changeAddRating = (e) => {
+        this.changeAddField("imdb", e.target.value);
+    };
+
+    changeAddField = (attr, value) => {
+        let addFilm = this.props.addFilm;
+        addFilm = {
+            ...addFilm,
+            [attr]: value
+        };
+        this.props.setAddFilm(addFilm);
+    };
+
     handleRentalPeriodChange = (event) => {
         const target = event.target;
         let editFilm = this.props.editFilm;
@@ -209,6 +264,16 @@ class FilmManager extends Component {
             rentalPeriod: this.props.allRentalPeriods.filter(rp => rp.id == target.value)[0]
         };
         this.props.setEditFilm(editFilm);
+    };
+
+    handleAddRentalPeriodChange = (event) => {
+        const target = event.target;
+        let addFilm = this.props.addFilm;
+        addFilm = {
+            ...addFilm,
+            rentalPeriod: this.props.allRentalPeriods.filter(rp => rp.id == target.value)[0]
+        };
+        this.props.setAddFilm(addFilm);
     };
 
     handleAgeRestrictionsChange = (event) => {
@@ -238,6 +303,16 @@ class FilmManager extends Component {
             };
             this.props.setEditFilm(editFilm);
         }
+    };
+
+    handleAddingAgeRestrictionsChange = (event) => {
+        const target = event.target;
+        let addFilm = this.props.addFilm;
+        addFilm = {
+            ...addFilm,
+            ageRestrictions: this.props.allAgeRestrictions.filter(a => a.id == target.value)
+        };
+        this.props.setAddFilm(addFilm);
     };
 
     handleCountryChange = (event) => {
@@ -356,6 +431,11 @@ class FilmManager extends Component {
         }
     };
 
+    validateForm = () => {
+        return this.props.addFilm.name && this.props.addFilm.duration && this.props.addFilm.imdb && this.props.addFilm.ageRestrictions
+            && this.props.addFilm.countries && this.props.genres && this.props.rentalPeriod;
+    };
+
     render() {
         const filmList = this.props.allFilms ? this.props.allFilms.map(film =>
             <tr key={film.id}>
@@ -368,7 +448,6 @@ class FilmManager extends Component {
                 <td className="film-table-td">{film.countries.map((c, index) => index === film.countries.length - 1 ? c.name + "" : c.name + ",")}</td>
                 <td>
                     <div className="d-flex flex-row action-button justify-content-center">
-                        <MdDeleteForever className="text-danger delete-seance-button" onClick={() => this.props.deleteFilm(film.id)}/>
                         <FaPencil className="pencil-action-button delete-seance-button" onClick={() => this.selectFilm(film.id)}/>
                     </div>
                 </td>
@@ -422,9 +501,11 @@ class FilmManager extends Component {
                         {this.getRentalPeriods()}
                     </div>
                 </div>
-                <Button className="btn btn-info mr-2" onClick={() => this.props.applyEditFilm(this.props.editFilm)}>
-                    Редактировать фильм
-                </Button>
+                <div className="d-flex flex-row justify-content-end">
+                    <Button style={{width: 200 + "px"}} className="btn button-color-two mr-2"  onClick={() => this.props.applyEditFilm(this.props.editFilm)}>
+                        Сохранить изменения
+                    </Button>
+                </div>
             </div>
         ) : null;
 
@@ -435,13 +516,13 @@ class FilmManager extends Component {
                 </div>
                 <div className="d-flex flex-column">
                     <div className="d-flex flex-row pb-2">
-                        <b className="edit-film-label">Название:</b> <Input style={{width: 300 + "px"}}/>
+                        <b className="edit-film-label">Название:</b> <Input style={{width: 300 + "px"}} onChange={this.changeAddFilmName}/>
                     </div>
                     <div className="d-flex flex-row pb-2">
-                        <b className="edit-film-label">Продолжительность:</b> <Input style={{width: 300 + "px"}} type="number" />
+                        <b className="edit-film-label">Продолжительность:</b> <Input style={{width: 300 + "px"}} type="number" onChange={this.changeAddDuration}/>
                     </div>
                     <div className="d-flex flex-row pb-2">
-                        <b className="edit-film-label">Рейтинг (IMDb): </b><Input style={{width: 300 + "px"}} type="number"/>
+                        <b className="edit-film-label">Рейтинг (IMDb): </b><Input style={{width: 300 + "px"} }onChange={this.changeAddRating} type="number"/>
                     </div>
                 </div>
                 <div className="d-flex flex-column pb-2">
@@ -465,7 +546,7 @@ class FilmManager extends Component {
                         <b>{"Возрастные ограничения:"}</b>
                     </div>
                     <div>
-                        {/*{this.getAgeRestrictionsList()}*/}
+                        {this.getAddingAgeRestrictionsList()}
                     </div>
                 </div>
                 <div className="d-flex flex-column pb-2">
@@ -473,15 +554,16 @@ class FilmManager extends Component {
                         <b>{"Период проката:"}</b>
                     </div>
                     <div>
-                        {/*{this.getRentalPeriods()}*/}
+                        {this.getAddingRentalPeriods()}
                     </div>
                 </div>
-                <Button className="btn btn-info mr-2">
-                    Добавить фильм
-                </Button>
+                <div className="d-flex flex-row justify-content-end">
+                    <Button style={{width: 200 + "px"}} className="btn button-color-two mr-2" onClick={() => this.props.addNewFilm(this.props.addFilm)}>
+                        Cохранить
+                    </Button>
+                </div>
             </div>
         ) : null;
-
 
         return (
             <div>
